@@ -1,6 +1,6 @@
 # 🚀 Mini-CRUD AJAX con Login y Sesiones (PHP & JSON)
 
-Este proyecto representa la implementación completa de un sistema CRUD (Create, Read, Update, Delete) de usuarios, integrando autenticación, gestión de sesiones y comunicación asíncrona (AJAX). El objetivo principal es simular una aplicación web moderna y funcional sin depender de una base de datos relacional, utilizando archivos JSON para la persistencia de datos.
+Este proyecto representa la implementación completa de un sistema CRUD (Create, Read, Update, Delete) de usuarios, integrando autenticación, gestión de sesiones y comunicación asíncrona (AJAX). El objetivo principal es simular una aplicación web moderna y funcional sin depender de una base de datos relacional, utilizando archivos JSON para la persistencia de datos
 
 ---
 
