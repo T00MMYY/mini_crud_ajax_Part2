@@ -47,4 +47,3 @@ El archivo `data.json` almacena un array de usuarios con la siguiente estructura
     "rol": "admin"
   }
 ]
-https://github.com/T00MMYY/mini_crud_ajax_Part2.git
