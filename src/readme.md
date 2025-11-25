@@ -41,8 +41,8 @@ El archivo `data.json` almacena un array de usuarios con la siguiente estructura
 [
   {
     "id": 1,
-    "nombre": "Lara",
-    "email": "lara@example.com",
+    "nombre": "tommyAdmin",
+    "email": "tommy@example.com",
     "password": "$2y$10$...", // Contraseña cifrada con password_hash()
     "rol": "admin"
   }
