@@ -1,0 +1,14 @@
+[
+    {
+        "nombre": "TommyUser",
+        "email": "tommy2@gmail.com",
+        "password": "$2y$12$e4PFG277Aw33OIr.04k1seLfy80BHx\/hI5iJxukqJ87TTTqBU9zRC",
+        "rol": "usuario"
+    },
+    {
+        "nombre": "TommyAdmin",
+        "email": "tommy@gmail.com",
+        "password": "$2y$12$eUl62c7KED08sX2PSBmDXuIhVt32053qG.HJ8kWv8kXJdvUrgrCh6",
+        "rol": "admin"
+    }
+]
