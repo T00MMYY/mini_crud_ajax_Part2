@@ -11,6 +11,7 @@ h1 {
 }
 form {
   display: grid;
+  align-items: center;
   gap: 0.5rem;
   max-width: 420px;
   margin-bottom: 1rem;
@@ -25,11 +26,7 @@ td {
   padding: 0.5rem 0.75rem;
 }
 #msg.ok {
-
   color: #0a0;
-
-  color: rgb(0, 97, 243);
-
 }
 #msg.error {
   color: #a00;

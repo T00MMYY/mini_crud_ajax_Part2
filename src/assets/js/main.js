@@ -71,7 +71,7 @@ function renderizarTablaDeUsuarios(arrayUsuarios) {
   arrayUsuarios.forEach((usuario, pos) => {
     const fila = document.createElement("tr");
     fila.innerHTML = `
-td>${pos + 1}</td>
+<td>${pos + 1}</td>
 <td>${convertirATextoSeguro(usuario?.nombre ?? "")}</td>
 <td>${convertirATextoSeguro(usuario?.email ?? "")}</td>
 <td>${convertirATextoSeguro(usuario?.rol ?? "")}</td>
@@ -185,6 +185,7 @@ nodoCuerpoTablaUsuarios?.addEventListener("click", async (e) => {
       formularioAltaUsuario.nombre.value = usuario.nombre;
       formularioAltaUsuario.email.value = usuario.email;
       formularioAltaUsuario.rol.value = usuario.rol;
+      formularioAltaUsuario.password.value = '';
 
       indiceEditando = index;
       nodoBotonAgregarUsuario.textContent = "Guardar cambios";

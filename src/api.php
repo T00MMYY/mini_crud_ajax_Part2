@@ -71,21 +71,23 @@ $accionSolicitada = $_GET['action'] ?? $_POST['action'] ?? 'list';
 
 // 4) LISTAR usuarios: GET /api.php?action=list
 if ($metodoHttpRecibido === 'GET' && $accionSolicitada === 'list') {
-responder_json_exito($listaUsuarios); // 200 OK
+responder_json_exito(sanitizarYOrdenarUsuariosParaRespuesta($listaUsuarios)); // 200 OK
 }
 
 // 5) CREAR usuario: POST /api.php?action=create
-// Body JSON esperado: { "nombre": "...", "email": "..." }
+// Body JSON esperado: { "nombre": "...", "email": "...", "password": "...", "rol": "..." }
 if ($metodoHttpRecibido === 'POST' && $accionSolicitada === 'create') {
 $cuerpoBruto = (string) file_get_contents('php://input');
 $datosDecodificados = $cuerpoBruto !== '' ? (json_decode($cuerpoBruto, true) ?? []) : [];
 // Extraemos datos y normalizamos
 $nombreUsuarioNuevo = trim((string) ($datosDecodificados['nombre'] ?? $_POST['nombre'] ?? ''));
 $correoUsuarioNuevo = trim((string) ($datosDecodificados['email'] ?? $_POST['email'] ?? ''));
+$passwordUsuarioNuevo = trim((string) ($datosDecodificados['password'] ?? $_POST['password'] ?? ''));
+$rolUsuarioNuevo = trim((string) ($datosDecodificados['rol'] ?? $_POST['rol'] ?? ''));
 $correoUsuarioNormalizado = mb_strtolower($correoUsuarioNuevo);
 // Validación mínima en servidor
-if ($nombreUsuarioNuevo === '' || $correoUsuarioNuevo === '') {
-responder_json_error('Los campos "nombre" y "email" son obligatorios.', 422);
+if ($nombreUsuarioNuevo === '' || $correoUsuarioNuevo === '' || $passwordUsuarioNuevo === '' || $rolUsuarioNuevo === '') {
+responder_json_error('Los campos "nombre", "email", "password" y "rol" son obligatorios.', 422);
 }
 if (!filter_var($correoUsuarioNuevo, FILTER_VALIDATE_EMAIL)) {
 responder_json_error('El campo "email" no tiene un formato válido.', 422);
@@ -97,20 +99,28 @@ responder_json_error('El campo "nombre" excede los 60 caracteres.', 422);
 if (mb_strlen($correoUsuarioNuevo) > 120) {
 responder_json_error('El campo "email" excede los 120 caracteres.', 422);
 }
+// Validar rol
+if (!in_array($rolUsuarioNuevo, ['usuario', 'admin'])) {
+responder_json_error('El rol debe ser "usuario" o "admin".', 422);
+}
 // Evitar duplicados por email
 if (existeEmailDuplicado($listaUsuarios, $correoUsuarioNormalizado)) {
 responder_json_error('Ya existe un usuario con ese email.', 409);
 }
+// Hash de la contraseña
+$passwordHasheada = password_hash($passwordUsuarioNuevo, PASSWORD_BCRYPT);
 // Agregamos y persistimos (guardamos el email normalizado)
 $listaUsuarios[] = [
 'nombre' => $nombreUsuarioNuevo,
 'email' => $correoUsuarioNormalizado,
+'password' => $passwordHasheada,
+'rol' => $rolUsuarioNuevo,
 ];
 file_put_contents(
 $rutaArchivoDatosJson,
 json_encode($listaUsuarios, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n"
 );
-responder_json_exito($listaUsuarios, 201);
+responder_json_exito(sanitizarYOrdenarUsuariosParaRespuesta($listaUsuarios), 201);
 }
 
 // 6) ELIMINAR usuario: POST /api.php?action=delete
@@ -147,7 +157,7 @@ $rutaArchivoDatosJson,
 json_encode($listaUsuarios, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n"
 );
 // 6.5) Devolvemos el listado actualizado
-responder_json_exito($listaUsuarios); // 200 OK
+responder_json_exito(sanitizarYOrdenarUsuariosParaRespuesta($listaUsuarios)); // 200 OK
 }
 
 if($metodoHttpRecibido === 'POST' && $accionSolicitada === 'update'){
@@ -157,18 +167,25 @@ if($metodoHttpRecibido === 'POST' && $accionSolicitada === 'update'){
     $indiceUsuario = isset($datosDecodificados['index']) ? (int)$datosDecodificados['index'] : null;
     $nombreUsuario = trim((string)($datosDecodificados['nombre'] ?? ''));
     $correoUsuario = trim((string)($datosDecodificados['email'] ?? ''));
+    $passwordUsuario = trim((string)($datosDecodificados['password'] ?? ''));
+    $rolUsuario = trim((string)($datosDecodificados['rol'] ?? ''));
     $correoUsuarioNormalizado = mb_strtolower($correoUsuario);
 
     if ($indiceUsuario === null || !isset($listaUsuarios[$indiceUsuario])) {
         responder_json_error('El usuario a editar no existe.', 404);
     }
 
-    if ($nombreUsuario === '' || $correoUsuario === '') {
-        responder_json_error('Los campos "nombre" y "email" son obligatorios.', 422);
+    if ($nombreUsuario === '' || $correoUsuario === '' || $rolUsuario === '') {
+        responder_json_error('Los campos "nombre", "email" y "rol" son obligatorios.', 422);
     }
 
     if (!filter_var($correoUsuario, FILTER_VALIDATE_EMAIL)) {
         responder_json_error('El campo "email" no tiene un formato válido.', 422);
+    }
+
+    // Validar rol
+    if (!in_array($rolUsuario, ['usuario', 'admin'])) {
+        responder_json_error('El rol debe ser "usuario" o "admin".', 422);
     }
 
     // Evitar duplicados de email (excepto el usuario que se está editando)
@@ -181,6 +198,12 @@ if($metodoHttpRecibido === 'POST' && $accionSolicitada === 'update'){
     // Actualizamos el usuario
     $listaUsuarios[$indiceUsuario]['nombre'] = $nombreUsuario;
     $listaUsuarios[$indiceUsuario]['email'] = $correoUsuarioNormalizado;
+    $listaUsuarios[$indiceUsuario]['rol'] = $rolUsuario;
+    
+    // Si se proporciona contraseña, la actualizamos
+    if ($passwordUsuario !== '') {
+        $listaUsuarios[$indiceUsuario]['password'] = password_hash($passwordUsuario, PASSWORD_BCRYPT);
+    }
 
     // Guardamos
     file_put_contents(
@@ -188,7 +211,7 @@ if($metodoHttpRecibido === 'POST' && $accionSolicitada === 'update'){
         json_encode($listaUsuarios, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n"
     );
 
-    responder_json_exito($listaUsuarios);
+    responder_json_exito(sanitizarYOrdenarUsuariosParaRespuesta($listaUsuarios));
 }
 
 // 7) Si llegamos aquí, la acción solicitada no está soportada

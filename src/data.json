@@ -10,5 +10,11 @@
         "email": "tommy@gmail.com",
         "password": "$2y$12$eUl62c7KED08sX2PSBmDXuIhVt32053qG.HJ8kWv8kXJdvUrgrCh6",
         "rol": "admin"
+    },
+    {
+        "nombre": "carlos",
+        "email": "carlos@gmail.com",
+        "password": "$2y$12$\/bB.tM6SvjCBb911cs9ZJukzGttmxCr4DL5F.jm173CyAlLS2YaKK",
+        "rol": "usuario"
     }
 ]
