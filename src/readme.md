@@ -21,7 +21,7 @@ Este proyecto representa la implementación completa de un sistema CRUD (Create,
 | **Backend** | PHP 8.x + Apache | Lógica de negocio, gestión de sesiones y API. |
 | **Frontend** | HTML, CSS, JavaScript | Interfaz de usuario, manejo de eventos y peticiones asíncronas (`fetch()`). |
 | **Entorno** | Docker / Docker Compose | Contenedorización del ambiente de desarrollo. |
-| **Datos** | JSON | Formato de almacenamiento y transferencia de datos. |
+| **Datos** | JSON | Formato de almacenamiento y transferencia de datos.
 
 ---
 
