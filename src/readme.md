@@ -1,65 +1,31 @@
-Cómo funciona el botón “Editar”
-El botón Editar permite modificar un usuario sin recargar la página.
+# 🚀 Mini-CRUD AJAX con Login y Sesiones (PHP & JSON)
 
-Cada fila de la tabla tiene un botón “Editar” con un atributo data-posicion que indica el índice del usuario en la lista.
+Este proyecto representa la implementación completa de un sistema CRUD (Create, Read, Update, Delete) de usuarios, integrando autenticación, gestión de sesiones y comunicación asíncrona (AJAX). El objetivo principal es simular una aplicación web moderna y funcional sin depender de una base de datos relacional, utilizando archivos JSON para la persistencia de datos.
 
-Detectar el clic: Se usa un eventListener en la tabla que detecta cuándo se hace clic en un botón “Editar”.
+---
 
-Cargar datos en el formulario:
+## ✨ Características Principales
 
-Se obtienen los datos del usuario desde la lista.
+* **Autenticación Segura:** Sistema de Login/Logout con gestión de sesiones PHP y cifrado de contraseñas (`password_hash`).
+* **Gestión de Roles:** Diferenciación entre usuarios con rol `admin` (acceso al CRUD completo) y rol `usuario` (solo vista restringida, ej: Sociograma).
+* **CRUD Completo y Asíncrono:** Operaciones de Crear, Listar, **Editar** y Eliminar usuarios sin recargar la página, utilizando `fetch()` y respuestas JSON.
+* **Persistencia de Datos:** Todos los datos de usuario se almacenan y gestionan en el archivo `data.json`.
+* **Arquitectura API:** Un único *endpoint* en PHP (`api.php`) maneja todas las acciones y devuelve respuestas estructuradas en formato JSON.
 
-Se rellenan los campos del formulario con esos datos.
+---
 
-Se cambia el botón a “Actualizar usuario” y el título del formulario a “Editar usuario”.
+## 🛠️ Tecnologías Utilizadas
 
-Guardar cambios: Al enviar el formulario, los datos actualizados se envían al servidor y la tabla se refresca automáticamente.
+| Componente | Tecnología | Uso |
+| :--- | :--- | :--- |
+| **Backend** | PHP 8.x + Apache | Lógica de negocio, gestión de sesiones y API. |
+| **Frontend** | HTML, CSS, JavaScript | Interfaz de usuario, manejo de eventos y peticiones asíncronas (`fetch()`). |
+| **Entorno** | Docker / Docker Compose | Contenedorización del ambiente de desarrollo. |
+| **Datos** | JSON | Formato de almacenamiento y transferencia de datos. |
 
-# PARTE 2 DEL MINI_CRUD
-Resumen Ultra-Básico de la Práctica
-Esta práctica es sobre cómo crear una aplicación web moderna y dinámica sin usar una base de datos tradicional, enfocándose en la interacción fluida entre el navegador y el servidor.
+---
 
-🧱 Los 3 Componentes Clave
-Todo el proyecto se construye combinando tres tecnologías principales:
+## ⚙️ Estructura del Proyecto
 
-PHP (Servidor): Es el cerebro. Recibe lo que envía el usuario (formularios, acciones) y decide qué hacer. Se encarga de la lógica de negocio.
-
-JSON (Almacenamiento): Es el disco duro temporal. Guarda los datos de los usuarios y todo lo demás en un archivo de texto simple (data.json).
-
-
-JavaScript con fetch() (Navegador): Es la mano derecha del usuario. Envía y recibe datos de PHP de forma asíncrona. Esto permite que la página no se recargue con cada acción (Crear, Eliminar, etc.).
-
-
-
-🔑 Funcionalidades Principales
-
-Mini-CRUD (Gestión de Usuarios): Permite Crear, Leer, Editar y Eliminar usuarios.
-
-
-
-Login y Sesiones: El sistema tiene una pantalla de inicio de sesión. Si el usuario se conecta, PHP usa las Sesiones (\$_SESSION) para recordar quién es y qué permisos tiene (Administrador o Usuario normal).
-
-
-
-
-Seguridad: Las contraseñas se guardan de forma segura (cifradas) usando la función password_hash() de PHP.
-
-
-↔️ Flujo de Trabajo (Asíncrono)
-En lugar de recargar la página completa, el flujo es:
-
-
-Acción del Usuario: El usuario hace clic en "Eliminar" o "Crear".
-
-
-Cliente (JS): JavaScript usa fetch() para enviar los datos a un archivo PHP (api.php).
-
-
-Servidor (PHP): api.php procesa la acción y actualiza el archivo data.json.
-
-
-
-Respuesta: api.php devuelve la nueva lista de usuarios en formato JSON.
-
-
-Cliente (JS): JavaScript recibe el JSON y actualiza solo la tabla en la pantalla sin recargar la página.
+La estructura del proyecto sigue un diseño coherente para separar las preocupaciones (presentación, lógica pública y persistencia):
+---

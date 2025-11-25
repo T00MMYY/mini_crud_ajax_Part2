@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Esta página solo verifica que el servidor PHP 8.4 funciona.
@@ -6,7 +7,6 @@ declare(strict_types=1);
  */
 ?>
 <!doctype html>
-
 <html lang="es">
 
 <head>
@@ -18,8 +18,8 @@ declare(strict_types=1);
     <h1>Mini CRUD en JSON (sin Base de Datos) — Parte 1</h1>
     <p>Servidor PHP 8.4 funcionando dentro de Docker.</p>
     <a href="login.php">
-                <button type="button">Iniciar Sesión</button>
-            </a>
+        <button type="button">Iniciar Sesión</button>
+    </a>
     <p><a href="index_ajax.html">Ir a Parte 2 (AJAX con fetch)</a></p>
 </body>
 
