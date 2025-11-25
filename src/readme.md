@@ -28,4 +28,22 @@ Este proyecto representa la implementación completa de un sistema CRUD (Create,
 ## ⚙️ Estructura del Proyecto
 
 La estructura del proyecto sigue un diseño coherente para separar las preocupaciones (presentación, lógica pública y persistencia):
+
 ---
+
+## 🔑 Implementación de Seguridad y Persistencia
+
+### Modelo de Usuario
+
+El archivo `data.json` almacena un array de usuarios con la siguiente estructura, garantizando la seguridad de la contraseña:
+
+```json
+[
+  {
+    "id": 1,
+    "nombre": "Lara",
+    "email": "lara@example.com",
+    "password": "$2y$10$...", // Contraseña cifrada con password_hash()
+    "rol": "admin"
+  }
+]
