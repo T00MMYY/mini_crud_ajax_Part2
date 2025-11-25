@@ -228,7 +228,7 @@ $errors = isset($errors) ? $errors : [];
         flex-direction: row;
         justify-content: space-between;
     }
-
+    
     footer {
         background-color: rgba(122, 122, 122, 0.651);
         left: 0;
